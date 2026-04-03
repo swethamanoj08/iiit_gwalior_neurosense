@@ -1,0 +1,100 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 600px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-card);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding: 0.75rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  z-index: 100;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+}
+
+.nav-items {
+  width: 100%;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+.nav-item.active {
+  color: var(--text-primary);
+}
+
+.nav-item.active svg {
+  color: var(--text-primary);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.action-btn {
+  position: relative;
+  top: -20px;
+  padding: 0;
+}
+
+.action-circle {
+  background: linear-gradient(135deg, var(--accent-teal), #00b4d8);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(0, 229, 255, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-btn:hover .action-circle {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 229, 255, 0.4);
+}
+
+/* DESKTOP SIDEBAR MODE */
+@media (min-width: 768px) {
+  .bottom-nav {
+    top: 0;
+    left: auto;
+    bottom: auto;
+    width: 80px;
+    height: 100vh;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-right: 1px solid var(--border-color);
+    border-top: none;
+    padding: 2rem 0;
+    transform: none;
+  }
+
+  .nav-items {
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-start;
+    gap: 3rem;
+  }
+
+  .nav-item {
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  /* Keep action button near bottom of sidebar */
+  .action-btn {
+    margin-top: auto;
+    top: 0;
+  }
+
+  .action-btn:hover .action-circle {
+    transform: scale(1.1); /* hover expands instead of translating Y up on desktop */
+  }
+}
