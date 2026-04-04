@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.ig-wrapper {
+  background-color: #000000;
+  background-image: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #000000 80%);
+  color: #f5f5f5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+}
+
+/* ── SIDEBAR ── */
+.ig-sidebar {
+  width: 244px;
+  height: 100vh;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px 20px;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  z-index: 20;
+}
+
+.ig-logo {
+  padding: 25px 12px 16px;
+  margin-bottom: 15px;
+}
+
+.ig-logo span {
+  font-family: 'Grand Hotel', cursive;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+.ig-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.ig-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 16px;
+}
+
+.ig-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ig-nav-item.active {
+  font-weight: 700;
+}
+
+.ig-nav-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── MAIN CONTENT ── */
+.ig-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  position: relative;
+}
+.ig-main::-webkit-scrollbar { display: none; }
+
+.ig-feed-container {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 24px;
+  padding: 0 20px;
+  justify-content: center;
+}
+
+.ig-feed {
+  width: 100%;
+  max-width: 470px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── STORIES ── */
+.ig-stories {
+  width: 100%;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 16px 8px;
+  margin-bottom: 24px;
+  margin-top: 10px;
+  min-height: 115px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.ig-stories::-webkit-scrollbar { display: none; }
+
+.ig-story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 66px;
+}
+
+.ig-story-ring {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.ig-story-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #000;
+  background: #262626;
+  object-fit: cover;
+}
+
+.ig-story-add {
+  background: none;
+  border: 1px dashed #555;
+}
+
+.ig-story-user {
+  font-size: 12px;
+  color: #a8a8a8;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ── POST ── */
+.ig-post {
+  width: 100%;
+  margin-bottom: 32px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.ig-post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+
+.ig-post-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ig-post-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #363636;
+}
+
+.ig-post-name { font-size: 14px; font-weight: 600; }
+.ig-post-time { font-size: 14px; color: #a8a8a8; margin-left: 6px; }
+
+.ig-post-media {
+  width: 100%;
+  border-radius: 4px;
+  background: #121212;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.ig-post-media img {
+  width: 100%;
+  max-height: 585px;
+  object-fit: contain;
+}
+
+.ig-post-media-text {
+  padding: 60px 40px;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+}
+
+.ig-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 8px;
+}
+
+.ig-actions-left { display: flex; gap: 16px; }
+
+.ig-icon-btn {
+  background: transparent;
+  border: none;
+  color: #f5f5f5;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ig-post-likes { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.ig-post-caption { font-size: 14px; margin-bottom: 8px; line-height: 1.4; }
+.ig-post-caption strong { font-weight: 600; margin-right: 6px; }
+
+/* ── RIGHT PANEL ── */
+.ig-right-panel {
+  width: 320px;
+  display: none;
+  flex-direction: column;
+  padding-top: 16px;
+}
+
+@media (min-width: 1000px) {
+  .ig-right-panel { display: flex; }
+}
+
+.ig-rp-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.ig-rp-user-info { display: flex; align-items: center; gap: 12px; }
+.ig-rp-avatar { width: 44px; height: 44px; border-radius: 50%; }
+.ig-rp-name { font-size: 14px; font-weight: 600; }
+.ig-rp-sub { font-size: 14px; color: #a8a8a8; }
+.ig-rp-action { color: #0095f6; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+.ig-rp-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #a8a8a8;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.ig-suggest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.ig-suggest-info { display: flex; align-items: center; gap: 12px; }
+.ig-suggest-avatar { width: 44px; height: 44px; border-radius: 50%; background: #262626; }
+.ig-suggest-details { display: flex; flex-direction: column; }
+
+/* ── MODALS (Instagram.py Refined) ── */
+.ig-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ig-create-modal {
+  background: #262626;
+  width: 100%;
+  max-width: 550px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.ig-modal-header {
+  padding: 12px 16px ;
+  border-bottom: 1px solid #363636;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ig-modal-title { font-weight: 600; font-size: 16px; text-align: center; flex: 1; }
+
+.ig-btn-share {
+  background: none; border: none; color: #0095f6;
+  font-weight: 600; cursor: pointer; font-size: 14px;
+}
+
+.ig-btn-share:disabled { opacity: 0.5; cursor: default; }
+
+.ig-create-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ig-user-intro {
+  display: flex; gap: 12px; align-items: center;
+}
+
+.ig-avatar-initial {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, #d946ef, #8b5cf6);
+  display: flex; align-items: center; justify-content: center; font-weight: bold;
+}
+
+.ig-creation-input {
+  flex: 1; background: transparent; border: none; color: white;
+  font-size: 16px; outline: none; resize: none; min-height: 50px;
+}
+
+.ig-upload-zone {
+  width: 100%; height: 260px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.2);
+  border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; gap: 12px;
+}
+
+.ig-upload-zone:hover { border-color: #0095f6; background: rgba(255,255,255,0.05); }
+
+.ig-preview-box { width: 100%; height: 100%; position: relative; }
+.ig-preview-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+
+.ig-modal-footer {
+  padding: 12px 24px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.ig-switch-btn { background: none; border: none; color: #a8a8a8; cursor: pointer; font-size: 13px; }
+
+.big-heart-overlay {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: heartPop 1s ease forwards; z-index: 5;
+}
+
+@keyframes heartPop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}

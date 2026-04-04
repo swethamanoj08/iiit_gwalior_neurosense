@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+groq
+python-dotenv
+librosa
+soundfile
+numpy
+python-multipart

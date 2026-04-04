@@ -1,0 +1,36 @@
+# NEUROSENSE - AI WELLNESS DASHBOARD
+# Unified Requirements for FastAPI Backend & ML Research
+
+# API & Server
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+cors
+
+# AI & Computer Vision
+mediapipe
+opencv-python
+numpy
+
+# Voice AI & Audio
+groq
+librosa
+soundfile
+
+# Data & ML
+pandas
+joblib
+scikit-learn
+onnxruntime
+tensorflow-cpu  # for LSTM wellness model if h5 is used
+
+# Database & Auth
+pymongo
+bcrypt
+certifi
+
+# Google Fit Integration
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
