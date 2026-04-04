@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MindCare – Wellness Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f0f4f0;
+    --panel:     #ffffff;
+    --sidebar:   #e8f0e8;
+    --border:    #d4e0d4;
+    --green1:    #3a7d5a;
+    --green2:    #5aaa7a;
+    --green3:    #a8d5b5;
+    --teal:      #2a8a7a;
+    --user-bg:   #d6eedd;
+    --user-text: #1a4a2e;
+    --bot-bg:    #ffffff;
+    --bot-text:  #2a3a2a;
+    --muted:     #7a9a7a;
+    --text:      #2a3a2a;
+    --shadow:    0 2px 16px rgba(58,125,90,0.10);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(90,170,122,0.08) 0%, transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(42,138,122,0.07) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app { display: flex; height: 100vh; position: relative; z-index: 1; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 300px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 20px;
+    gap: 22px;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand-orb {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--green1), var(--teal));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 12px rgba(58,125,90,0.25);
+    flex-shrink: 0;
+  }
+
+  .brand-text h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    color: var(--green1);
+    line-height: 1.1;
+  }
+
+  .brand-text p { font-size: 0.72rem; color: var(--muted); font-weight: 300; margin-top: 3px; }
+
+  .section-title {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .health-form { display: flex; flex-direction: column; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
+  .field label {
+    font-size: 0.78rem;
+    color: var(--green1);
+    font-weight: 600;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .field input,
+  .field select {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 0.84rem;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--green2);
+    box-shadow: 0 0 0 3px rgba(90,170,122,0.12);
+  }
+
+  .field select option { background: #fff; }
+
+  .save-btn {
+    background: linear-gradient(135deg, var(--green1), var(--teal));
+    color: #fff; border: none;
+    border-radius: 10px; padding: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+
+  .save-btn:hover  { opacity: 0.88; }
+  .save-btn:active { transform: scale(0.97); }
+
+  .saved-badge {
+    display: none;
+    font-size: 0.75rem;
+    color: var(--green2);
+    text-align: center;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .quick-prompts { display: flex; flex-direction: column; gap: 7px; }
+
+  .qp {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 0.78rem;
+    color: var(--green1);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 7px;
+  }
+
+  .qp:hover {
+    background: var(--green3);
+    border-color: var(--green2);
+    transform: translateX(3px);
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem; color: var(--muted);
+    cursor: pointer; transition: all 0.2s;
+    margin-top: auto;
+  }
+
+  .reset-btn:hover { border-color: #e88; color: #c55; }
+
+  /* ── Main ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+  .topbar {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--green2);
+    box-shadow: 0 0 0 3px rgba(90,170,122,0.2);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(90,170,122,0.20); }
+    50%       { box-shadow: 0 0 0 7px rgba(90,170,122,0.06); }
+  }
+
+  .topbar-left span { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+
+  .data-pills { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+  .pill {
+    background: var(--user-bg);
+    border: 1px solid var(--green3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: var(--green1);
+    font-weight: 600;
+    font-size: 0.71rem;
+  }
+
+  #chat-box {
+    flex: 1; overflow-y: auto;
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 16px;
+    scroll-behavior: smooth;
+  }
+
+  #chat-box::-webkit-scrollbar { width: 5px; }
+  #chat-box::-webkit-scrollbar-track { background: transparent; }
+  #chat-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .message { display: flex; gap: 10px; animation: msgIn 0.3s ease; }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.user { flex-direction: row-reverse; align-self: flex-end; }
+  .message.bot  { align-self: flex-start; }
+
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0; margin-top: 4px;
+  }
+
+  .message.bot .avatar  { background: linear-gradient(135deg, var(--green1), var(--teal)); color: #fff; }
+  .message.user .avatar { background: var(--user-bg); border: 1.5px solid var(--green3); font-size: 11px; font-weight: 700; color: var(--green1); }
+
+  .bubble {
+    padding: 13px 17px; border-radius: 16px;
+    font-size: 0.875rem; line-height: 1.68;
+    white-space: pre-wrap; max-width: 78%;
+  }
+
+  .message.bot .bubble {
+    background: var(--bot-bg); border: 1px solid var(--border);
+    border-top-left-radius: 4px; color: var(--bot-text);
+    box-shadow: var(--shadow);
+  }
+
+  .message.user .bubble {
+    background: var(--user-bg); border: 1px solid var(--green3);
+    border-top-right-radius: 4px; color: var(--user-text);
+  }
+
+  .typing-indicator { display: flex; gap: 5px; align-items: center; padding: 4px 0; }
+
+  .typing-indicator span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green3); animation: bounce 1.2s infinite;
+  }
+
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40%           { transform: translateY(-7px); opacity: 1; }
+  }
+
+  .input-area {
+    background: var(--panel); border-top: 1px solid var(--border);
+    padding: 16px 24px; display: flex; gap: 10px;
+    align-items: flex-end; flex-shrink: 0;
+  }
+
+  #user-input {
+    flex: 1; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 13px 18px;
+    font-family: 'Nunito', sans-serif; font-size: 0.9rem; color: var(--text);
+    resize: none; outline: none;
+    min-height: 50px; max-height: 130px;
+    transition: border-color 0.2s, box-shadow 0.2s; line-height: 1.5;
+  }
+
+  #user-input:focus {
+    border-color: var(--green2);
+    box-shadow: 0 0 0 3px rgba(90,170,122,0.12);
+  }
+
+  #user-input::placeholder { color: var(--muted); }
+
+  .send-btn {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--green1), var(--teal));
+    border: none; border-radius: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 19px; flex-shrink: 0;
+    transition: opacity 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(58,125,90,0.28);
+  }
+
+  .send-btn:hover  { opacity: 0.88; }
+  .send-btn:active { transform: scale(0.94); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .bubble  { max-width: 92%; }
+    #chat-box { padding: 16px; }
+    .input-area { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-orb">🌿</div>
+      <div class="brand-text">
+        <h1>MindCare</h1>
+        <p>Wellness Companion · Groq AI</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Your Health Data</div>
+      <div class="health-form" style="margin-top:10px;">
+
+        <div class="field">
+          <label>😴 Sleep last night (hrs)</label>
+          <input type="number" id="sleep" min="0" max="24" step="0.5" placeholder="e.g. 7" />
+        </div>
+
+        <div class="field">
+          <label>💧 Water today (litres)</label>
+          <input type="number" id="water" min="0" max="15" step="0.1" placeholder="e.g. 1.5" />
+        </div>
+
+        <div class="field">
+          <label>⚖️ Body weight (kg)
+            <span style="font-weight:300;color:var(--muted);font-size:0.72rem">(optional)</span>
+          </label>
+          <input type="number" id="weight" min="0" max="300" step="0.5" placeholder="e.g. 65" />
+        </div>
+
+        <div class="field">
+          <label>😌 Current mood</label>
+          <select id="mood">
+            <option value="">Select mood…</option>
+            <option value="Great">😄 Great</option>
+            <option value="Okay">🙂 Okay</option>
+            <option value="Tired">😴 Tired</option>
+            <option value="Anxious">😰 Anxious</option>
+            <option value="Sad">😔 Sad</option>
+            <option value="Stressed">😤 Stressed</option>
+            <option value="Irritable">😠 Irritable</option>
+          </select>
+        </div>
+
+        <button class="save-btn" onclick="saveHealthData()">💾 Save &amp; Update</button>
+        <div class="saved-badge" id="saved-badge">✅ Health data saved!</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Quick Prompts</div>
+      <div class="quick-prompts" style="margin-top:10px;">
+        <button class="qp" onclick="quickSend('Analyse my sleep and give me personalised advice.')">😴 Analyse my sleep</button>
+        <button class="qp" onclick="quickSend('How much water should I drink today? Give personalised advice.')">💧 Water intake advice</button>
+        <button class="qp" onclick="quickSend('Guide me through a breathing exercise step by step.')">🌬️ Breathing exercise</button>
+        <button class="qp" onclick="quickSend('Give me nutrition tips for better mental health and energy.')">🥦 Nutrition tips</button>
+        <button class="qp" onclick="quickSend('Give me a complete wellness check covering sleep, water, nutrition and mood.')">✨ Full wellness check</button>
+        <button class="qp" onclick="quickSend('What foods help reduce anxiety and stress?')">🧘 Anxiety-reducing foods</button>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetChat()">🔄 Reset conversation</button>
+
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="status-dot"></div>
+        <span>MindCare is online</span>
+      </div>
+      <div class="data-pills" id="data-pills"></div>
+    </div>
+
+    <div id="chat-box"></div>
+
+    <div class="input-area">
+      <textarea id="user-input" placeholder="Ask about sleep, nutrition, hydration, breathing…" rows="1"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">➤</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const chatBox = document.getElementById('chat-box');
+  const inputEl = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
+
+  // Welcome
+  window.addEventListener('DOMContentLoaded', () => {
+    appendBot(
+`Hello! 👋 I'm MindCare, your personal wellness companion.
+
+I can help you with:
+😴 Sleep analysis — understand your rest and how to improve it
+🥦 Nutrition — foods that boost your mood, energy & cognition
+💧 Hydration — personalised daily water intake advice
+🌬️ Breathing exercises — calm anxiety, reduce stress, sleep better
+
+Fill in your health details in the sidebar and click Save to get personalised advice. Then ask me anything! 🌿`
+    );
+  });
+
+  // Save health data to Flask session
+  async function saveHealthData() {
+    const data = {
+      sleep:  document.getElementById('sleep').value,
+      water:  document.getElementById('water').value,
+      weight: document.getElementById('weight').value,
+      mood:   document.getElementById('mood').value,
+    };
+
+    try {
+      await fetch('/update_health', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {
+      console.warn('Server not reachable:', e);
+    }
+
+    const badge = document.getElementById('saved-badge');
+    badge.style.display = 'block';
+    setTimeout(() => badge.style.display = 'none', 2500);
+    updatePills(data);
+  }
+
+  function updatePills(data) {
+    const pills = document.getElementById('data-pills');
+    pills.innerHTML = '';
+    if (data.sleep)  pills.innerHTML += `<span class="pill">😴 ${data.sleep}h sleep</span>`;
+    if (data.water)  pills.innerHTML += `<span class="pill">💧 ${data.water}L water</span>`;
+    if (data.mood)   pills.innerHTML += `<span class="pill">😌 ${data.mood}</span>`;
+  }
+
+  // Send message
+  async function sendMessage(overrideText) {
+    const text = overrideText || inputEl.value.trim();
+    if (!text) return;
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    sendBtn.disabled = true;
+
+    appendUser(text);
+    const typingEl = appendTyping();
+
+    try {
+      const res  = await fetch('/get_response', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      typingEl.remove();
+      appendBot(data.error ? `⚠️ Error: ${data.error}` : data.reply);
+    } catch (err) {
+      typingEl.remove();
+      appendBot(`⚠️ Network error: ${err.message}`);
+    } finally {
+      sendBtn.disabled = false;
+      inputEl.focus();
+    }
+  }
+
+  function quickSend(text) { sendMessage(text); }
+
+  async function resetChat() {
+    try { await fetch('/reset', { method: 'POST' }); } catch(e) {}
+    chatBox.innerHTML = '';
+    appendBot('Conversation reset! 🌿 How can I help you today?');
+  }
+
+  // DOM helpers
+  function appendUser(text) {
+    const div = document.createElement('div');
+    div.className = 'message user';
+    div.innerHTML = `<div class="avatar">You</div><div class="bubble">${esc(text)}</div>`;
+    chatBox.appendChild(div);
+    scrollBottom();
+  }
+
+  function appendBot(text) {
+    const div = document.createElement('div');
+    div.className = 'message bot';
+    div.innerHTML = `<div class="avatar">🌿</div><div class="bubble">${fmtMd(text)}</div>`;
+    chatBox.appendChild(div);
+    scrollBottom();
+    return div;
+  }
+
+  function appendTyping() {
+    const div = document.createElement('div');
+    div.className = 'message bot';
+    div.innerHTML = `
+      <div class="avatar">🌿</div>
+      <div class="bubble">
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      </div>`;
+    chatBox.appendChild(div);
+    scrollBottom();
+    return div;
+  }
+
+  function scrollBottom() { chatBox.scrollTop = chatBox.scrollHeight; }
+
+  function fmtMd(text) {
+    return esc(text)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+      .replace(/`(.+?)`/g,       '<code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:4px;font-size:0.83em">$1</code>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function esc(t) {
+    return t
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 130) + 'px';
+  });
+
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+</script>
+</body>
+</html>

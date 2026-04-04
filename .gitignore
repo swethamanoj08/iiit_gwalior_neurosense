@@ -1,0 +1,41 @@
+# 🔐 Secrets
+.env
+*.env
+
+# 🐍 Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# 📦 Virtual environments
+venv/
+env/
+.venv/
+
+# 🧪 Flask / database
+instance/
+*.db
+*.sqlite3
+
+# 📊 Logs
+*.log
+
+# 🖥️ System files
+.DS_Store
+Thumbs.db
+
+# 🧰 VS Code / IDE
+.vscode/
+.idea/
+
+# 📁 Temporary files
+*.swp
+*.tmp
+
+# 📦 Build files
+dist/
+build/
+*.egg-info/
+
+# 📓 Jupyter / Colab
+.ipynb_checkpoints/
