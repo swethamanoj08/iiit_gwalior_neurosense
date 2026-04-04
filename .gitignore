@@ -1,0 +1,34 @@
+# Credentials - NEVER push these
+credentials.json
+token.json
+backend/token.json
+backend/credentials.json
+
+# Large datasets - too big for GitHub
+*.csv
+mturkfitbit_export_3.12.16-4.11.16/
+mturkfitbit_export_4.12.16-5.12.16/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# IDE
+.vscode/
+
+# Logs / temp files
+*.log
+backend/live_output.txt
+backend/live_output_clean.txt
